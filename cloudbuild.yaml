@@ -6,22 +6,22 @@ steps:
   args:
     - '-c'
     - |-
-      dbt deps --profiles-dir .
+      dbt deps --profiles-dir ./dbt-poc
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt debug --target ${_DBT_TARGET} --profiles-dir .
+      dbt debug --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt run --target ${_DBT_TARGET} --profiles-dir .
+      dbt run --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt test --data --target ${_DBT_TARGET} --profiles-dir .
+      dbt test --data --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
