@@ -4,24 +4,25 @@ steps:
   name: 'fishtownanalytics/dbt:${_DBT_VERSION}'
   entrypoint: 'bash'
   args:
+    - 'cd ./dbt-poc'
     - '-c'
     - |-
-      dbt deps --profiles-dir ./dbt-poc
+      dbt deps --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt debug --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
+      dbt debug --target ${_DBT_TARGET} --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt run --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
+      dbt run --target ${_DBT_TARGET} --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
       fi
-      dbt test --data --target ${_DBT_TARGET} --profiles-dir ./dbt-poc
+      dbt test --data --target ${_DBT_TARGET} --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
         exit 1
