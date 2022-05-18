@@ -1,0 +1,24 @@
+### demo profiles yaml from the blog post
+dbt_poc:  # profile name from dbt_project.yml
+  target: dev
+  outputs:
+
+    dev:
+      type: bigquery
+      method: oauth
+      project: silver-antonym-326607
+      dataset: dbt_poc_test
+      threads: 4
+      timeout_seconds: 300
+      priority: interactive
+      retries: 1
+
+    prod:
+      type: bigquery
+      method: oauth
+      project: silver-antonym-326607
+      dataset: dbt_poc_prod
+      threads: 4
+      timeout_seconds: 300
+      priority: interactive
+      retries: 1

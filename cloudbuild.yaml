@@ -1,0 +1,34 @@
+# gcloud builds submit --congig=cloudbuild.yaml .
+steps:
+- id: '1 Run dbt'
+  name: 'fishtownanalytics/dbt:${_DBT_VERSION}'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |-
+      cd /workspace/dbt-poc
+      dbt deps --profiles-dir .
+      if [[ $? == 1 ]]; then
+        echo '1'
+        exit 1
+      fi
+      dbt debug --target ${_DBT_TARGET} --profiles-dir .
+      if [[ $? == 1 ]]; then
+        echo '1'
+        exit 1
+      fi
+      dbt run --target ${_DBT_TARGET} --profiles-dir .
+      if [[ $? == 1 ]]; then
+        echo '1'
+        exit 1
+      fi
+      dbt test --data --target ${_DBT_TARGET} --profiles-dir .
+      if [[ $? == 1 ]]; then
+        echo '1'
+        exit 1
+      fi
+timeout: 1200s
+tags: ['dbt']
+substitutions:
+  _DBT_VERSION: '0.21.0'
+  _DBT_TARGET: 'dev'

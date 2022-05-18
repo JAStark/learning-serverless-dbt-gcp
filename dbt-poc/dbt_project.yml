@@ -1,0 +1,36 @@
+## project name should be lower case and underscored only.
+## good name should reflect org name and intended use of the models
+
+name: 'dbt_poc'
+version: '1.0.0'
+config-version: 2
+
+# this setting configures which 'profile' dbt uses for this project
+profile: 'dbt_poc'
+
+## these configurations specify where dbt should look for files.
+## e.g. the source paths config states the models are in "models/" dir.
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  ## where to store the compiled SQL files
+clean-targets:           ## directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_modules"
+
+
+## configuring models
+## full docs https://docs.getdbt.com/docs/configuring-models
+
+## in this example, we tell dbt to build all models in the `example/` dir as tables
+## These settings can be overridden in the individual model files using the
+## `{{ config(...) }}` macro
+models:
+  dbt_poc:
+    # config indicated by + and applies to all files under `models/example`
+    example:
+      +materialized: view
