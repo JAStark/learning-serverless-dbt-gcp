@@ -3,7 +3,7 @@
 
 name: 'dbt_poc'
 version: '1.0.0'
-config_version: 2
+config-version: 2
 
 # this setting configures which 'profile' dbt uses for this project
 profile: 'dbt_poc'
