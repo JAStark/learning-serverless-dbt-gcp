@@ -4,9 +4,9 @@ steps:
   name: 'fishtownanalytics/dbt:${_DBT_VERSION}'
   entrypoint: 'bash'
   args:
-    - 'cd ./dbt-poc'
     - '-c'
     - |-
+      cd workspace/dbt-poc
       dbt deps --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
