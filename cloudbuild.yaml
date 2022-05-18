@@ -1,4 +1,4 @@
-# cloud build submit --congig=cloudbuild.yaml .
+# gcloud builds submit --congig=cloudbuild.yaml .
 steps:
 - id: '1 Run dbt'
   name: 'fishtownanalytics/dbt:${_DBT_VERSION}'

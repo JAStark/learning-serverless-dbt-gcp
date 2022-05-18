@@ -1,5 +1,5 @@
 ### demo profiles yaml from the blog post
-dbt_poc: 'dbt_poc' # profile name from dbt_project.yml
+dbt_poc:  # profile name from dbt_project.yml
   target: dev
   outputs:
 
