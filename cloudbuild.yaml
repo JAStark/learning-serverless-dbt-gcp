@@ -6,7 +6,7 @@ steps:
   args:
     - '-c'
     - |-
-      cd workspace/dbt-poc
+      cd /workspace/dbt-poc
       dbt deps --profiles-dir .
       if [[ $? == 1 ]]; then
         echo '1'
