@@ -14,7 +14,7 @@ terraform {
 provider "google" {
   # Configuration options
   project = var.project_id
-  region  = "europe-west2"
+  region  = var.region
 
 }
 
@@ -22,7 +22,7 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo"     {
   provider      = google-beta
 
   project       = var.project_id
-  location      = "europe-west1"
+  location      = var.region
   repository_id = "dev-serverless-dbt-example"
   description   = "tf-created repo for serverless dbt example"
   format        = "DOCKER"
