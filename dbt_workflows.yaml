@@ -1,0 +1,19 @@
+# original workflow yaml from the first dbt blog I followed. The blog only had this in the console, so I've copied it here for the next iteration of this project,
+
+
+- init:
+    assign:
+    - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+    - trigger_id: "087b9816-3736-4986-9bbd-3dab112620b9" # change this to your cloud build trigger id
+- create_build:
+    call: googleapis.cloudbuild.v1.projects.triggers.run
+    args:
+      projectId: ${project_id}
+      triggerId: ${trigger_id}
+    result: response
+- log:
+    call: sys.log
+    args:
+        data: ${response}
+- the_end:
+    return: ${response}
