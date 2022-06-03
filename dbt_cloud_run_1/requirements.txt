@@ -1,4 +1,4 @@
 gunicorn==20.1.0
 flask==1.1.2
 dbt==0.20.1
-jinja2=2.11.3
+jinja2==2.11.3
