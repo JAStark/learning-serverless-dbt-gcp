@@ -9,7 +9,7 @@ resource "google_cloudbuild_trigger" "dev-serverless-dbt-cloud-run-1-build-trigg
       }
   }
 
-  included_files  = ["dbt-cloud-run-1/**"]
-  filename        = "dbt-cloud-run-1/cloudbuild.yaml"
+  included_files  = ["dbt_cloud_run_1/**"]
+  filename        = "dbt_cloud_run_1/cloudbuild.yaml"
 
 }
