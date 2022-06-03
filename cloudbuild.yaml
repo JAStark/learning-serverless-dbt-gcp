@@ -1,6 +1,5 @@
-# gcloud builds submit --congig=cloudbuild.yaml .
-steps:
 # [START Terraform init]
+steps:
 - id: 'branch name'
   name: 'alpine'
   entrypoint: 'sh'
@@ -33,7 +32,6 @@ steps:
           cd ../../
         done
       fi
-
 # [START tf-plan]
 - id: 'tf plan'
   name: 'hashicorp/terraform:1.0.9'
@@ -60,41 +58,6 @@ steps:
       fi
 # [END tf-plan]
 
-# [START DBT work]
-- id: '1 Run dbt'
-  name: 'fishtownanalytics/dbt:${_DBT_VERSION}'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |-
-      cd /workspace/dbt-poc
-      dbt deps --profiles-dir .
-      if [[ $? == 1 ]]; then
-        echo '1'
-        exit 1
-      fi
-      dbt debug --target ${_DBT_TARGET} --profiles-dir .
-      if [[ $? == 1 ]]; then
-        echo '1'
-        exit 1
-      fi
-      dbt run --target ${_DBT_TARGET} --profiles-dir .
-      if [[ $? == 1 ]]; then
-        echo '1'
-        exit 1
-      fi
-      dbt test --data --target ${_DBT_TARGET} --profiles-dir .
-      if [[ $? == 1 ]]; then
-        echo '1'
-        exit 1
-      fi
-timeout: 1200s
-tags: ['dbt']
-substitutions:
-  _DBT_VERSION: '0.21.0'
-  _DBT_TARGET: 'dev'
-# [END DBT work]
-
 # [START tf-apply]
 - id: 'tf apply'
   name: 'hashicorp/terraform:1.0.9'
@@ -111,3 +74,38 @@ substitutions:
         echo "*******************************************************************************"
       fi
 # [END tf-apply]
+
+# # [START DBT work]
+# - id: '1 Run dbt'
+#   name: 'fishtownanalytics/dbt:${_DBT_VERSION}'
+#   entrypoint: 'bash'
+#   args:
+#     - '-c'
+#     - |-
+#       cd /workspace/dbt-poc
+#       dbt deps --profiles-dir .
+#       if [[ $? == 1 ]]; then
+#         echo '1'
+#         exit 1
+#       fi
+#       dbt debug --target ${_DBT_TARGET} --profiles-dir .
+#       if [[ $? == 1 ]]; then
+#         echo '1'
+#         exit 1
+#       fi
+#       dbt run --target ${_DBT_TARGET} --profiles-dir .
+#       if [[ $? == 1 ]]; then
+#         echo '1'
+#         exit 1
+#       fi
+#       dbt test --data --target ${_DBT_TARGET} --profiles-dir .
+#       if [[ $? == 1 ]]; then
+#         echo '1'
+#         exit 1
+#       fi
+# timeout: 1200s
+# tags: ['dbt']
+# substitutions:
+#   _DBT_VERSION: '0.21.0'
+#   _DBT_TARGET: 'dev'
+# # [END DBT work]
