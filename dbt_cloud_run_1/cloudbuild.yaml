@@ -31,7 +31,7 @@ steps:
            '--no-allow-unauthenticated']
 
   # Service Account Permissions
-  -name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['beta', 'run', 'services', 'add-iam-policy-binding', '${BRANCH_NAME}-serverless-dbt-example',
           '--region', 'europe-west1',
