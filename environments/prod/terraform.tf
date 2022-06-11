@@ -51,11 +51,16 @@ resource "google_artifact_registry_repository" "prod-serverless-dbt-repo"     {
 #   ]
 # }
 
+resource "google_service_account" "dbt_serverless_workflow_account" {
+  account_id    = "scheduler-workflows-invoke"
+  display_name  = "DEV DBT Workflows Demo Account"
+}
+
 resource "google_workflows_workflow" "prod_dbt_demo_workflow" {
   name            = "prod_dbt_serverless_workflow_demo"
   region          = "europe-west1"
   description     = "PROD demo workflow for cloud run, and dbt w/ snowflake"
-  service_account = google_service_account.prod_dbt_serverless_workflow_account.id
+  service_account = google_service_account.dbt_serverless_workflow_account.id
   # source_contents = file("workflow.yaml")
   source_contents = <<-EOF
   - dbt_cloud_run_1_task:
