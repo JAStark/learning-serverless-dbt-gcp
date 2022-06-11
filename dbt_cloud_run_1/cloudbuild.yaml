@@ -27,7 +27,7 @@ steps:
            '--platform', 'managed',
            '--cpu', '1',
            '--memory', '128Mi',
-           '--service-account', 'scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com'
+           '--service-account', 'scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com',
            '--no-allow-unauthenticated']
 
   # Service Account Permissions
