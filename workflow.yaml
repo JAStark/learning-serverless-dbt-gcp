@@ -1,0 +1,26 @@
+# https://cloud.google.com/workflows/docs/run/tutorial-cloud-run
+
+# - dbt_cloud_run_1_task:
+#     call: http.post
+#     args:
+#       url: https://${BRANCH_NAME}-serverless-dbt-example-jrek4srhha-ew.a.run.app
+#       auth:
+#         type: OIDC
+#       body:
+#         input: ${log_result.body}
+#     result: not_sure
+# - return_result:
+#     return: ${not_sure}
+
+
+- dbt_cloud_run_1_task:
+    call: http.get
+    args:
+      url: https://${BRANCH_NAME}-serverless-dbt-example-jrek4srhha-ew.a.run.app
+      auth:
+        type: OIDC
+    #   body:
+    #     input: ${log_result.body}
+    # result: not_sure
+- return_result:
+    return: "all done"
