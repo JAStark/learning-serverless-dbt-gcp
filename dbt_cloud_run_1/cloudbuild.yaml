@@ -35,5 +35,5 @@ steps:
     entrypoint: gcloud
     args: ['beta', 'run', 'services', 'add-iam-policy-binding', '${BRANCH_NAME}-serverless-dbt-example',
           '--region', 'europe-west1',
-          '--member', 'sericeAccount:scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com',
+          '--member', 'serviceAccount:scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com',
           '--role', 'roles/run.invoker']
