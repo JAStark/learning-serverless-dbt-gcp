@@ -7,15 +7,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    try:
-        os.system("chmod -R 777 *.sh")
-        os.system("./script.sh")
-        return "SQL Transformations complete"
-    except Exception as e:
-        print("\nError = {e}")
-        return "error!!!"
+    # try:
+    #     os.system("chmod -R 777 *.sh")
+    #     os.system("./script.sh")
+    #     return "SQL Transformations complete"
+    # except Exception as e:
+    #     print("\nError = {e}")
+    #     return "error!!!"
 
+    return "test cloud run main complete. No DBT used."
 
+    
 if __name__ == "__main__":
     # Redirect Flask logs to Gunicorm logs
     gunicorn_logger = logging.getLogger('gunicorn.error')
