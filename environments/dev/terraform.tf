@@ -33,7 +33,7 @@ resource "google_service_account" "dev_dbt_serverless_workflow_account" {
   display_name  = "DEV DBT Workflows Demo Account"
 }
 
-resource "google_service_account_iam_binding" "dev_dbt_workflows_demo_account_iam" {
+resource "google_service_account_iam_binding" "dev_dbt_workflows_run_iam" {
   service_account_id = google_service_account.dev_dbt_serverless_workflow_account.name
   role               = "roles/run.invoker"
 
@@ -42,7 +42,7 @@ resource "google_service_account_iam_binding" "dev_dbt_workflows_demo_account_ia
   ]
 }
 
-resource "google_service_account_iam_binding" "dev_dbt_workflows_demo_account_iam" {
+resource "google_service_account_iam_binding" "dev_dbt_workflows_workflows_iam" {
   service_account_id = google_service_account.dev_dbt_serverless_workflow_account.name
   role               = "roles/workflows.invoker"
 
