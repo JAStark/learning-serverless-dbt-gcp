@@ -29,7 +29,7 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo"     {
 }
 
 resource "google_service_account" "dev_dbt_serverless_workflow_account" {
-  account_id    = "dev_workflows_account"
+  account_id    = "dev-workflows-demo-account"
   display_name  = "DEV DBT Workflows Demo Account"
 }
 
