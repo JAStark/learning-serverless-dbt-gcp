@@ -34,7 +34,7 @@ resource "google_workflows_workflow" "dbt_demo_workflow" {
   region = "europe-west1"
   description = "demo workflow for cloud run, and dbt w/ snowflake"
   service_account = "projects/${PROJECT_ID}/serviceAccounts/scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com"
-  source_contents = file(./workflow.yaml)
+  source_contents = file("./workflow.yaml")
 }
 
 
