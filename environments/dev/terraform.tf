@@ -28,16 +28,16 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo"     {
   format        = "DOCKER"
 }
 
-resource "google_service_account" "dbt_serverless_workflow_account" {
-  account_id    = "workflows-demos-account"
-  display_name  = "DBT Workflows Demo Account"
+resource "google_service_account" "dev_dbt_serverless_workflow_account" {
+  account_id    = "dev-workflows-demos-account"
+  display_name  = "DEV DBT Workflows Demo Account"
 }
 
-resource "google_workflows_workflow" "dbt_demo_workflow" {
-  name            = "dbt_serverless_workflow_demo"
+resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
+  name            = "dev_dbt_serverless_workflow_demo"
   region          = "europe-west1"
-  description     = "demo workflow for cloud run, and dbt w/ snowflake"
-  service_account = google_service_account.dbt_serverless_workflow_account.id
+  description     = "DEV demo workflow for cloud run, and dbt w/ snowflake"
+  service_account = google_service_account.dev_dbt_serverless_workflow_account.id
   # source_contents = file("workflow.yaml")
   source_contents = <<-EOF
   - dbt_cloud_run_1_task:
