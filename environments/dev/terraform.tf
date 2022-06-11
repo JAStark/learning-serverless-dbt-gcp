@@ -43,7 +43,7 @@ resource "google_workflows_workflow" "dbt_demo_workflow" {
   - dbt_cloud_run_1_task:
       call: http.get
       args:
-        url: https://${BRANCH_NAME}-serverless-dbt-example-jrek4srhha-ew.a.run.app
+        url: https://dev-serverless-dbt-example-jrek4srhha-ew.a.run.app
         auth:
           type: OIDC
   - return_result:
