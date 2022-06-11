@@ -37,8 +37,8 @@ resource "google_workflows_workflow" "dbt_demo_workflow" {
   name = "dbt_serverless_workflow_demo"
   region = "europe-west1"
   description = "demo workflow for cloud run, and dbt w/ snowflake"
-  service_account = google_service_account.dbt_serverless_workflow_account.id 
-  source_contents = file("./workflow.yaml")
+  service_account = google_service_account.dbt_serverless_workflow_account.id
+  source_contents = file("workflow.yaml")
 }
 
 
@@ -55,6 +55,7 @@ resource "google_cloud_scheduler_job" "dbt-workflows-job" {
 
   http_target {
     http_method = "POST"
-    uri = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dbt_serverless_workflow_demo/executions"
+    # uri = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dbt_serverless_workflow_demo/executions"
+    google_workflows_workflow.dbt_demo_workflow.id
   }
 }
