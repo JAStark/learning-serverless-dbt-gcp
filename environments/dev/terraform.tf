@@ -58,9 +58,6 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
   service_account = google_service_account.dev_dbt_serverless_workflow_account.id
   # source_contents = file("workflow.yaml")
   source_contents = <<-EOF
-  - init:
-    assign:
-    - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
   - dbt_cloud_run_1_task:
       call: http.get
       args:
@@ -68,12 +65,6 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
         auth:
           type: OIDC
       result: response
-  - log:
-      call: sys.log
-      args:
-          data: ${response}
-  - the_end:
-      return: ${response}
 
       EOF
 }
