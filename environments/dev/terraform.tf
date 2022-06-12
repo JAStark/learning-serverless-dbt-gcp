@@ -91,7 +91,7 @@ resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
     uri         = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
 
     oauth_token {
-      service_account_email = data.scheduler-workflows-invoke.default.email
+      service_account_email = google_service_account.dbt_serverless_workflow_account.email
     }
   }
 }
