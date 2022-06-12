@@ -88,9 +88,7 @@ resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
 
   http_target {
     http_method = "POST"
-    uri         = google_workflows_workflow.dev_dbt_demo_workflow.id
-    # uri         = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
-
+    uri         = "https://workflowexecutions.googleapis.com/v1/projects${var.project_id}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
     oauth_token {
       service_account_email = var.service_account_email
     }
