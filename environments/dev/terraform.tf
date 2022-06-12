@@ -75,8 +75,6 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
 }
 
 
-data "google_service_account" "dbt_serverless_workflow_account" {}
-
 resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
   name              = "dev-dbt-serverless-workflows-job"
   description       = "trigger DEV workflow once per day"
