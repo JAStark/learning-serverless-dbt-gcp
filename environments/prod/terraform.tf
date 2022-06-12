@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
       version = "~>4.22.0"
     }
   }
@@ -18,8 +18,8 @@ provider "google" {
 
 }
 
-resource "google_artifact_registry_repository" "prod-serverless-dbt-repo"     {
-  provider      = google-beta
+resource "google_artifact_registry_repository" "prod-serverless-dbt-repo" {
+  provider = google-beta
 
   project       = var.project_id
   location      = var.region
@@ -51,16 +51,16 @@ resource "google_artifact_registry_repository" "prod-serverless-dbt-repo"     {
 #   ]
 # }
 
-resource "google_service_account" "dbt_serverless_workflow_account" {
-  account_id    = "scheduler-workflows-invoke"
-  display_name  = "DEV DBT Workflows Demo Account"
+resource "google_service_account" "prod_dbt_serverless_workflow_account" {
+  account_id   = "prod-dbt-workflows-invoker"
+  display_name = "PROD DBT Workflows Demo Account"
 }
 
 resource "google_workflows_workflow" "prod_dbt_demo_workflow" {
   name            = "prod_dbt_serverless_workflow_demo"
   region          = "europe-west1"
   description     = "PROD demo workflow for cloud run, and dbt w/ snowflake"
-  service_account = google_service_account.dbt_serverless_workflow_account.id
+  service_account = google_service_account.prod_dbt_serverless_workflow_account.id
   # source_contents = file("workflow.yaml")
   source_contents = <<-EOF
   - dbt_cloud_run_1_task:
@@ -76,11 +76,11 @@ resource "google_workflows_workflow" "prod_dbt_demo_workflow" {
 }
 
 resource "google_cloud_scheduler_job" "prod-dbt-workflows-job" {
-  name              = "prod-dbt-serverless-workflows-job"
-  description       = "trigger the PROD workflow once per day"
-  schedule          = "0 9 * * *"
-  time_zone         = "Europe/London"
-  attempt_deadline  = "320s"
+  name             = "prod-dbt-serverless-workflows-job"
+  description      = "trigger the PROD workflow once per day"
+  schedule         = "0 9 * * *"
+  time_zone        = "Europe/London"
+  attempt_deadline = "320s"
 
   retry_config {
     retry_count = 1
@@ -88,6 +88,9 @@ resource "google_cloud_scheduler_job" "prod-dbt-workflows-job" {
 
   http_target {
     http_method = "POST"
-    uri         = google_workflows_workflow.prod_dbt_demo_workflow.id
+    uri         = "https://workflowexecutions.googleapis.com/v1/projects/${var.project_id}/locations/europe-west1/workflows/prod_dbt_serverless_workflow_demo/executions"
+    oauth_token {
+      service_account_email = var.service_account_email
+    }
   }
 }

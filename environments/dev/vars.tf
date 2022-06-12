@@ -9,5 +9,5 @@ variable "region" {
 }
 
 variable "service_account_email" {
-  default = "scheduler-workflows-invoke@silver-antonym-326607.iam.gserviceaccount.com"
+  default = "dev-dbt-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com"
 }
