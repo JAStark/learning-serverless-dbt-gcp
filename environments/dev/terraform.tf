@@ -51,8 +51,8 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo" {
 #   ]
 # }
 
-resource "google_service_account" "dbt_serverless_workflow_account" {
-  account_id   = "scheduler-workflows-invoke"
+resource "google_service_account" "dev_dbt_serverless_workflow_account" {
+  account_id   = "dev-dbt-workflows-invoker"
   display_name = "DEV DBT Workflows Demo Account"
 }
 
@@ -60,7 +60,7 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
   name            = "dev_dbt_serverless_workflow_demo"
   region          = "europe-west1"
   description     = "DEV demo workflow for cloud run, and dbt w/ snowflake"
-  service_account = google_service_account.dbt_serverless_workflow_account.id
+  service_account = google_service_account.dev_dbt_serverless_workflow_account.id
   # source_contents = file("workflow.yaml")
   source_contents = <<-EOF
   - dbt_cloud_run_1_task:
@@ -88,7 +88,7 @@ resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
 
   http_target {
     http_method = "POST"
-    uri         = "https://workflowexecutions.googleapis.com/v1/projects${var.project_id}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
+    uri         = "https://workflowexecutions.googleapis.com/v1/projects/${var.project_id}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
     oauth_token {
       service_account_email = var.service_account_email
     }
