@@ -74,3 +74,20 @@ resource "google_workflows_workflow" "prod_dbt_demo_workflow" {
 
       EOF
 }
+
+resource "google_cloud_scheduler_job" "prod-dbt-workflows-job" {
+  name              = "prod-dbt-serverless-workflows-job"
+  description       = "trigger the PROD workflow once per day"
+  schedule          = "0 9 * * *"
+  time_zone         = "Europe/London"
+  attempt_deadline  = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "POST"
+    uri         = google_workflows_workflow.prod_dbt_demo_workflow.id
+  }
+}

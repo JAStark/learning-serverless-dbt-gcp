@@ -75,20 +75,19 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
 }
 
 
-# resource "google_cloud_scheduler_job" "dbt-workflows-job" {
-#   name              = "dbt-serverless-workflows-job"
-#   description       = "trigger the workflow once per day"
-#   schedule          = "0 9 * * *"
-#   time_zone         = "Europe/London"
-#   attempt_deadline  = "320s"
-#
-#   retry_config {
-#     retry_count = 1
-#   }
-#
-#   http_target {
-#     http_method = "POST"
-#     # uri = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dbt_serverless_workflow_demo/executions"
-#     uri         = google_workflows_workflow.dbt_demo_workflow.id
-#   }
-# }
+resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
+  name              = "dev-dbt-serverless-workflows-job"
+  description       = "trigger DEV workflow once per day"
+  schedule          = "0 9 * * *"
+  time_zone         = "Europe/London"
+  attempt_deadline  = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "POST"
+    uri         = google_workflows_workflow.dev_dbt_demo_workflow.id
+  }
+}
