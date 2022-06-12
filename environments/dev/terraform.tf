@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    google    = {
+    google = {
       source  = "hashicorp/google"
       version = "~>4.22.0"
     }
@@ -18,8 +18,8 @@ provider "google" {
 
 }
 
-resource "google_artifact_registry_repository" "dev-serverless-dbt-repo"     {
-  provider      = google-beta
+resource "google_artifact_registry_repository" "dev-serverless-dbt-repo" {
+  provider = google-beta
 
   project       = var.project_id
   location      = var.region
@@ -52,8 +52,8 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo"     {
 # }
 
 resource "google_service_account" "dbt_serverless_workflow_account" {
-  account_id    = "scheduler-workflows-invoke"
-  display_name  = "DEV DBT Workflows Demo Account"
+  account_id   = "scheduler-workflows-invoke"
+  display_name = "DEV DBT Workflows Demo Account"
 }
 
 resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
@@ -76,11 +76,11 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
 
 
 resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
-  name              = "dev-dbt-serverless-workflows-job"
-  description       = "trigger DEV workflow once per day"
-  schedule          = "0 9 * * *"
-  time_zone         = "Europe/London"
-  attempt_deadline  = "320s"
+  name             = "dev-dbt-serverless-workflows-job"
+  description      = "trigger DEV workflow once per day"
+  schedule         = "0 9 * * *"
+  time_zone        = "Europe/London"
+  attempt_deadline = "320s"
 
   retry_config {
     retry_count = 1
@@ -89,5 +89,10 @@ resource "google_cloud_scheduler_job" "dev-dbt-workflows-job" {
   http_target {
     http_method = "POST"
     uri         = google_workflows_workflow.dev_dbt_demo_workflow.id
+    # uri         = "https://workflowexecutions.googleapis.com/v1/projects/${PROJECT_ID}/locations/europe-west1/workflows/dev_dbt_serverless_workflow_demo/executions"
+
+    oauth_token {
+      service_account_email = var.service_account_email
+    }
   }
 }
