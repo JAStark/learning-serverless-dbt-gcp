@@ -28,31 +28,19 @@ resource "google_artifact_registry_repository" "dev-serverless-dbt-repo" {
   format        = "DOCKER"
 }
 
-# resource "google_service_account" "dev_dbt_serverless_workflow_account" {
-#   account_id    = "dev-workflows-demo-account"
-#   display_name  = "DEV DBT Workflows Demo Account"
-# }
-#
+
 # resource "google_service_account_iam_binding" "dev_dbt_workflows_run_iam" {
 #   service_account_id = google_service_account.dev_dbt_serverless_workflow_account.name
 #   role               = "roles/run.invoker"
-#
-#   members = [
-#     "serviceAccount:dev_workflows_account@silver-antonym-326607.iam.gserviceaccount.com",
-#   ]
 # }
 #
 # resource "google_service_account_iam_binding" "dev_dbt_workflows_workflows_iam" {
 #   service_account_id = google_service_account.dev_dbt_serverless_workflow_account.name
 #   role               = "roles/workflows.invoker"
-#
-#   members = [
-#     "serviceAccount:dev_workflows_account@silver-antonym-326607.iam.gserviceaccount.com",
-#   ]
 # }
 
 resource "google_service_account" "dev_dbt_serverless_workflow_account" {
-  account_id   = "dev-dbt-workflows-invoker"
+  account_id   = var.service_account_id
   display_name = "DEV DBT Workflows Demo Account"
 }
 
