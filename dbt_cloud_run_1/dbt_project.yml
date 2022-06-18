@@ -1,7 +1,7 @@
 ## project name should be lower case and underscored only.
 ## good name should reflect org name and intended use of the models
 
-name: my_snowflake_db
+name: 'my_snowflake_db'
 version: 1.0.7
 config-version: 2
 
