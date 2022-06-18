@@ -1,0 +1,32 @@
+steps:
+  # Install dependencies
+  # - name: python
+  #   entrypoint: pip
+  #   args: ["install", "-r", "./requirements.txt", "--user"]
+
+  # Run unit tests
+  # - name: python
+  #   entrypoint: python
+  #   args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"]
+
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ["build", "-f", "./dbt_cloud_run_2/Dockerfile", "-t", "europe-west1-docker.pkg.dev/${PROJECT_ID}/${BRANCH_NAME}-serverless-dbt-example/dbt-cloud-2-image:$SHORT_SHA", "./dbt_cloud_run_2"]
+
+  # Docker push to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',  'europe-west1-docker.pkg.dev/${PROJECT_ID}/${BRANCH_NAME}-serverless-dbt-example/dbt-cloud-2-image:$SHORT_SHA']
+
+  # Deploy to Cloud Run
+  - name: google/cloud-sdk
+    args: ['gcloud', 'run', 'deploy', '${BRANCH_NAME}-serverless-dbt-example',
+           '--image=europe-west1-docker.pkg.dev/${PROJECT_ID}/${BRANCH_NAME}-serverless-dbt-example/dbt-cloud-2-image:$SHORT_SHA',
+           '--region', 'europe-west1',
+           '--concurrency', '80',
+           '--timeout', '300',
+           '--platform', 'managed',
+           '--cpu', '1',
+           '--memory', '128Mi',
+           '--port', '8089',
+           '--service-account', 'scheduler-workflows-invoker@silver-antonym-326607.iam.gserviceaccount.com',
+           '--no-allow-unauthenticated']
