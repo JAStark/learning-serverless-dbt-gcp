@@ -30,7 +30,7 @@ resource "google_workflows_workflow" "dev_dbt_demo_workflow" {
   region          = "europe-west1"
   description     = "DEV demo workflow for cloud run, and dbt w/ snowflake"
   service_account = google_service_account.dev_dbt_serverless_workflow_account.id
-  source_contents = templatefile("workflow.yaml", {})
+  source_contents = templatefile(./workflow.yaml, {})
   # source_contents = <<-EOF
   # - dbt_cloud_run_1_task:
   #     call: http.get
