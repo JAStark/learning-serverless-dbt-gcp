@@ -1,7 +1,7 @@
 - init:
     assign:
       - namespaces: '307575647034'
-      - project: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      - project: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
       - service_name: 'dev-serverless-dbt-run-2'
 - dbt_cloud_run_1_task:
     call: http.get
@@ -10,12 +10,6 @@
       auth:
         type: OIDC
     result: response
-# - get_dbt_cloud_run_2_service:
-#     call: googleapis.run.v1.namespaces.services.get
-#     args:
-#       name: ${"namespaces/" + project + "/services/" + service_name}
-#       location: "europe-west1"
-#     result: get_resp
 - dbt_cloud_run_2_task:
     try:
       call: http.get
@@ -24,34 +18,4 @@
         auth:
           type: OIDC
       result: apiResponse
-    retry: ${http.default_retry}
-
-# - dbt_cloud_run_2_task:
-#     try:
-#       call: http.get
-#       args:
-#         url: https://dev-serverless-dbt-run-2-jrek4srhha-ew.a.run.app
-#         auth:
-#           type: OIDC
-#       result: response
-#     except:
-#       as: e
-#       steps:
-#         - known_errors:
-#             switch:
-#               - condition: ${not("HttpError" in e.tags)}
-#                 next: connection_problem
-#               - condition: ${e.code == 404}
-#                 next: url_not_found
-#               - condition: ${e.code == 403}
-#                 next: auth_problem
-#         - unhandled_exception:
-#             raise: ${e}
-# - url_found:
-#     return: ${response.body}
-# - connection_problem:
-#     return: "Connection problem; check URL"
-# - url_not_found:
-#     return: "Sorry, URL wasn't found"
-# - auth_problem:
-#     return: "Authentication error"
+    retry: $${http.default_retry}
