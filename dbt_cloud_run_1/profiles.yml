@@ -1,27 +1,27 @@
 #Using dbt website to configure snowflake profile
-my_snowflake_db:
-  target: dev
-  outputs:
-    dev:
-      type: snowflake
-      account: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_ACCOUNT') }}"
+#my_snowflake_db:
+#  target: dev
+#  outputs:
+#    dev:
+#      type: snowflake
+#      account: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_ACCOUNT') }}"
 
 #user/password auth
-      user: "{{ env_var('DBT_ENV_SECRET_DBT_USER') }}"
-      password: "{{ env_var('DBT_ENV_SECRET_DBT_PASSWORD') }}"
-      role: TRANSFORMER
-      database: ANALYTICS
-      warehouse: TRANSFORM_WH
-      schema: MY_SCHEMA
-      threads: 4
-      client_session_keep_alive: False
-      query_tag: tool_DOA_dev
+#      user: "{{ env_var('DBT_ENV_SECRET_DBT_USER') }}"
+#      password: "{{ env_var('DBT_ENV_SECRET_DBT_PASSWORD') }}"
+#      role: TRANSFORMER
+#      database: ANALYTICS
+#      warehouse: TRANSFORM_WH
+#      schema: MY_SCHEMA
+#      threads: 4
+#      client_session_keep_alive: False
+#      query_tag: tool_DOA_dev
 
 #optional
-      connect_retries: 0
-      connect_timeout: 10
-      retry_on_database_errors: False
-      retry_all: False
+#      connect_retries: 0
+#      connect_timeout: 10
+#      retry_on_database_errors: False
+#      retry_all: False
 
 
 # demo profiles yaml from the blog post

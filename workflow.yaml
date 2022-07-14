@@ -1,26 +1,21 @@
-# https://cloud.google.com/workflows/docs/run/tutorial-cloud-run
-
-# - dbt_cloud_run_1_task:
-#     call: http.post
-#     args:
-#       url: https://${BRANCH_NAME}-serverless-dbt-example-jrek4srhha-ew.a.run.app
-#       auth:
-#         type: OIDC
-#       body:
-#         input: ${log_result.body}
-#     result: not_sure
-# - return_result:
-#     return: ${not_sure}
-
-
+- init:
+    assign:
+      - namespaces: '307575647034'
+      - project: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      - service_name: 'dev-serverless-dbt-run-2'
 - dbt_cloud_run_1_task:
     call: http.get
     args:
-      url: https://${BRANCH_NAME}-serverless-dbt-example-jrek4srhha-ew.a.run.app
+      url:  https://dev-serverless-dbt-run-1-jrek4srhha-ew.a.run.app
       auth:
         type: OIDC
-    #   body:
-    #     input: ${log_result.body}
-    # result: not_sure
-- return_result:
-    return: "all done"
+    result: response
+- dbt_cloud_run_2_task:
+    try:
+      call: http.get
+      args:
+        url: https://dev-serverless-dbt-run-2-jrek4srhha-ew.a.run.app
+        auth:
+          type: OIDC
+      result: apiResponse
+    retry: $${http.default_retry}
